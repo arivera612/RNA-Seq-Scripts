@@ -1,0 +1,14 @@
+library(ggplot2)
+library(ggrepel)
+genes <- read.delim("./results/edgeRglm_NOSTIM.xls", sep="\t", header=TRUE)
+head(genes)
+genes$Significant <- ifelse(genes$OBNS.LNNS_FDR < 0.10, "FDR < 0.10", "Not Sig")
+head(genes)
+
+library(ggrepel)
+pdf("Volcano_Nostim.pdf")
+ggplot(genes, aes(x = OBNS.LNNS_logFC, y = -log10(OBNS.LNNS_FDR))) + geom_point(aes(color = Significant), shape=17) + scale_color_manual(values = c("#E7298A", "#decbe4")) +
+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_rect(colour = "black", size=2, fill=NA)) +
+geom_text_repel(data = subset(genes, OBNS.LNNS_FDR < 0.10),aes(label = hgnc_symbol),size = 5,box.padding = unit(0.35, "lines"), point.padding = unit(0.3, "lines"))
+dev.off()
+
