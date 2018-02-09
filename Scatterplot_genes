@@ -1,4 +1,7 @@
 ##Input data should have minimum 3 columns: GENE name, numeric value for X, numeric value for Y
+
+merge <- read.delim("Data.txt", header=TRUE, sep="\t")
+
 pdf("Common_genes_scatter.pdf")
 ggplot(merge, aes(x = FC.x, y = FC.y)) + geom_point(aes(color = "#66A61E"), shape=8)
 + scale_color_manual(values = c("#E7298A", "#decbe4"))  
