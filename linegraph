@@ -1,0 +1,16 @@
+p <- plot_ly(data, x = ~day, y = ~high, type = 'scatter', mode = 'lines', line = list(color = 'transparent'), showlegend = FALSE, name = 'high') %>%
+  add_trace(y = ~low, type = 'scatter', mode = 'lines', fill = 'tonexty', fillcolor='rgba(0,100,80,0.2)', line = list(color = 'transparent'), showlegend = FALSE, name = 'low') %>%
+  add_trace(x = ~day, y = ~average, type = 'scatter', mode = 'lines', line = list(color='rgb(0,100,80)'), name = 'Average') %>%
+  layout(title = "RPKM Cluster0", paper_bgcolor='rgb(255,255,255)', plot_bgcolor='rgb(229,229,229)', xaxis = list(title = "Days Post Infection", gridcolor = 'rgb(255,255,255)', showgrid = TRUE,
+                      showline = FALSE,
+                      showticklabels = TRUE,
+                      tickcolor = 'rgb(127,127,127)',
+                      ticks = 'outside',
+                      zeroline = FALSE),
+         yaxis = list(title = "RPKM",
+                      gridcolor = 'rgb(255,255,255)',
+                      showgrid = TRUE, showline = FALSE, showticklabels = TRUE, tickcolor = 'rgb(127,127,127)', ticks = 'outside', zeroline = FALSE))
+                      
+                      
+                      df2 <- data.frame(supp=rep(c("Cluster0", "Cluster1", "Cluster2", "Cluster3"), each=4), day=rep(c("d0", "d3", "d6", d10),4), RPKM=c(0, 8.08235475, 23.98724302, 16.57278021, 101.1659776, 28.80483663, 27.07742692, 12.91385471, 2.126550941, 30.77927725, 38.36898544, 14.61611133, 0, 2.949388931, 4.045035934, 19.7694805))
+head(df2)
