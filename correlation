@@ -1,0 +1,15 @@
+library(Hmisc)
+library(reshape2)
+library(Hmisc)
+library(stats)
+
+data <- read.table("file1.txt", header=TRUE, row.names=1, sep="\t", check.names=FALSE)
+
+dataframe <- as.data.frame(data)
+x <- dataframe[n:n]
+y <- dataframe[n:n]
+correlation <- cor(x,y, use="all.obs", method="spearman")
+
+cordata <- melt(correlation)
+
+write.table(cordata, file="filename.xls", quote=FALSE, sep="\t", col.names=NA)
