@@ -1,0 +1,6 @@
+mapping <- read.delim("Ensembl-mapping.txt", sep="\t", header=TRUE)
+edgeR <- read.delim("edgeRglm_allcomp.xls", sep="\t", header=TRUE)
+edgeR_map <- merge(edgeR, mapping, by.x="RhesusEnsembl", by.y="ENSEMBL_ID", all=TRUE)
+rpkm <- read.delim("rpkm.xls", sep="\t", header=TRUE)
+edgeR_rpkm <- merge(edgeR_map, rpkm, by.x="RhesusEnsembl", by.y="ENSEMBL_ID", all=TRUE)
+write.table(edgeR_rpkm, file="edgeR_rpkm.xls", sep="\t", col.names=TRUE, row.names=FALSE, quote=FALSE)
