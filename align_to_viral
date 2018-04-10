@@ -1,0 +1,24 @@
+##Alignment and convert to BED
+bowtie2 -x GenomeFastaResults_Mayinga -U test.fastq.gz -k 1 | samtools view -bS - | bedtools bamtobed -i - > test.bed
+
+##Process bed file
+##$2 is start
+##$3 is end
+##$4 is sequenceID
+##$6 is sense
+
+awk '{print "chr1\t"$2"\t"$3"\t"$4"\t"$6}' test.bed > test_processed.bed
+
+##Process GFF file
+##$4 is start
+##$5 is end
+##$11 is ID
+##$7 is sense
+
+awk '{print "chr1\t"$4"\t"$5"\t"$11"\t"$7}' Gff.bed > Gff_processed.bed
+
+##Find Overlap
+intersectBed -wao -a Gff_processed.bed -b test_processed.bed | awk '{if($11>=75) print;}' > test_processed_intersect.bed
+
+##Get number of reads for each gene
+awk '{print$5}' test_processed_intersect.bed | sort | uniq -c | awk '{print $2"\t"$1}' > test.counts
