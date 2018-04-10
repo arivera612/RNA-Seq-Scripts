@@ -1,0 +1,21 @@
+Bowtie index
+bowtie2-build GenomeFastaResults_Mayinga.fasta GenomeFastaResults_Mayinga
+
+
+bowtie2 -x GenomeFastaResults_Mayinga -U ../data/flowcell319_lane5_pair1_ATCACG.fastq.gz -S flowcell319_lane5_pair1_ATCACG.sam
+15299508 reads; of these:
+  15299508 (100.00%) were unpaired; of these:
+    13622216 (89.04%) aligned 0 times
+    1677292 (10.96%) aligned exactly 1 time
+    0 (0.00%) aligned >1 times
+10.96% overall alignment rate
+
+bowtie2 -x GenomeFastaResults_Mayinga -U ../data/flowcell319_lane3_pair1_ATCACG.fastq.gz -S flowcell319_lane3_pair1_ATCACG.sam
+18712068 reads; of these:
+  18712068 (100.00%) were unpaired; of these:
+    18712068 (100.00%) aligned 0 times
+    0 (0.00%) aligned exactly 1 time
+    0 (0.00%) aligned >1 times
+0.00% overall alignment rate
+
+bowtie2 -k 1 -- no-mixed --no-discordant -x CHIKV_genome -1 Isolate-20-5_S4_R1_001_val_1.fq.gz -2 Isolate-20-5_S4_R2_001_val_2.fq.gz -S Isolate-20-5_S4.sam
