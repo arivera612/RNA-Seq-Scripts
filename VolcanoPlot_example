@@ -4,6 +4,10 @@ genes <- read.delim("./results/edgeRglm_NOSTIM.xls", sep="\t", header=TRUE)
 head(genes)
 genes$Significant <- ifelse(genes$OBNS.LNNS_FDR < 0.10, "FDR < 0.10", "Not Sig")
 head(genes)
+#set RPKM cutoff
+genes <- subset(genes, rowmean > 5)
+
+#to check number of Significant genes use table()
 
 library(ggrepel)
 pdf("Volcano_Nostim.pdf")
