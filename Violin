@@ -1,0 +1,4 @@
+ToothGrowth$dose <- as.factor(ToothGrowth$dose)
+pdf("violintest3.pdf")
+ggplot(ToothGrowth, aes(x=dose, y=len, fill=dose)) + geom_violin(trim=FALSE) + geom_boxplot(width=0.1, fill="white") + labs(title="Plot of length by dose", x="Dose (mg)", y="Length") + theme_classic()
+dev.off()
