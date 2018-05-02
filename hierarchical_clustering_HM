@@ -1,0 +1,22 @@
+countDF <- read.table("Count_expression_matrix.txt", sep="\t", header=TRUE)
+countDF2 <- countDF[,-1]
+names <- countDF$X
+rownames(countDF2) = make.names(names, unique=TRUE)
+countDF3 <- subset(countDF2, select=c())
+countDF4 <- countDF3[rowSums(countDF3[,-1]^2) > 0, ]
+df[-row(df)[df == 0],]
+
+library(systemPipeR)
+targets <- read.delim("targets.txt", comment.char = "#")
+
+library(DESeq2)
+colData <- data.frame(row.names=targets$SampleName, condition=targets$Factor)
+dds <- DESeqDataSetFromMatrix(countData = countDF4, colData = colData, design = ~ condition)
+names <- rownames(countDF4)
+
+library(pheatmap)
+y <- assay(rlog(dds))[names, ]
+
+pdf("heatmap1.pdf")
+pheatmap(y, scale="row", clustering_distance_rows="correlation", clustering_distance_cols="correlation")
+dev.off()
