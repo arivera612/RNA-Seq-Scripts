@@ -1,3 +1,4 @@
+#load library
 library(edgeR)
 
 #VERSION 1: read counts file
@@ -7,7 +8,6 @@ countDF <- read.delim("countfile.xls", sep="\t", header=TRUE, row.names=1)
 head(countDF)
 
 #subset count files to only include the samples you want to compare
-#also select control and experimental columns
 #note that the control and experimental will be the names you've assigned in your header
 countDF2 <- subset(countDF, select=c(control,experimental))
 
@@ -24,9 +24,33 @@ et <- exactTest(y, dispersion=bcv^2)
 
 write.table(et$table, "edgeR.xls", quote=FALSE, sep="\t", col.names=NA)
 
-#VERSION2 
-##read counts file and only use Gene symbol
+##VERSION2: read counts file and only use Gene symbol
 countDF <- read.table("Count_expression_matrix.xls", sep="\t", header=TRUE)
+
+#check the file read in correctly
+head(countDF)
+
+#make gene symbol names unique
 countDF2 <- countDF[,-1]
 names <- countDF$X
 rownames(countDF2) = make.names(names, unique=TRUE)
+
+#check the file is correct
+head(countDF2)
+
+#subset count files to only include the samples you want to compare
+#note that the control and experimental will be the names you've assigned in your header
+countDF2 <- subset(countDF, select=c(control,experimental))
+
+#check that subsetting was successful
+head(countDF2)
+
+#convert to matrix
+counts <- as.matrix(countDF2)
+
+#DEG analysis
+bcv <- 0.4
+y <- DGEList(counts=counts, group=1:2)
+et <- exactTest(y, dispersion=bcv^2)
+
+write.table(et$table, "edgeR.xls", quote=FALSE, sep="\t", col.names=NA)
