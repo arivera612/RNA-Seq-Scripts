@@ -1,23 +1,32 @@
 library(edgeR)
 
-#read counts file
-countDF <- read.delim("countfile", sep="\t", header=TRUE)
+#VERSION 1: read counts file
+countDF <- read.delim("countfile.xls", sep="\t", header=TRUE, row.names=1)
 
-#fix rownames (ENSEMBl IDs are designated "X")
+#check that the file read in correctly
+head(countDF)
+
+#subset count files to only include the samples you want to compare
 #also select control and experimental columns
-countDF2 <- subset(countDF, select=-c(X))
-rownames(countDF2) = countDF$X
-attach(countDF2)
-comp <- cbind(control,test)
-rownames(comp) <- countDF$X
+#note that the control and experimental will be the names you've assigned in your header
+countDF2 <- subset(countDF, select=c(control,experimental))
 
+#check that subsetting was successful
+head(countDF2)
 
-Counts <- as.matrix(countDF2)
+#convert to matrix
+counts <- as.matrix(countDF2)
 
+#DEG analysis
 bcv <- 0.4
-y <- DGEList(counts=comp, group=1:2)
+y <- DGEList(counts=counts, group=1:2)
 et <- exactTest(y, dispersion=bcv^2)
-desc <- read.delim("bigdata/messaoudilab/arivera/Reference_Macaque/Rhesus_annotations.xls", row.names=1)
-edgeDF <- cbind(et$table, desc[rownames(et$table),])
-write.table(edgeDF, "edgeRglm_allcomp.xls", quote=FALSE, sep="\t", col.names=NA)
 
+write.table(et$table, "edgeR.xls", quote=FALSE, sep="\t", col.names=NA)
+
+#VERSION2 
+##read counts file and only use Gene symbol
+countDF <- read.table("Count_expression_matrix.xls", sep="\t", header=TRUE)
+countDF2 <- countDF[,-1]
+names <- countDF$X
+rownames(countDF2) = make.names(names, unique=TRUE)
